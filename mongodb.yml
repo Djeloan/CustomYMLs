@@ -43,7 +43,6 @@
       set_fact:
         pg_volumes:
           - '/opt/appdata/{{pgrole}}:/app/config'
-          - './db:/data/db'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
