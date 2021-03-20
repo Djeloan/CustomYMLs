@@ -1,8 +1,5 @@
 #!/bin/bash
-# 
-# Title:      Petio
-# Author(s):  Petio
-# URL:        https://hotio.dev/containers/petio/
+# Author(s):  Shadowtor
 # GNU:        General Public License v3.0
 ################################################################################
 ---
@@ -14,8 +11,8 @@
       set_fact:
         pgrole: 'petio'
         intport: '7777'
-        extport: '7777'
-        image: 'hotio/petio'
+        extport: '7778'
+        image: 'hotio/petio:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -42,15 +39,15 @@
     - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
-          - '/opt/appdata/{{pgrole}}:/app/config'
+          - '/etc/localtime:/etc/localtime:ro'
+          - '/opt/appdata/{{pgrole}}:/config'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
           PGID: '1000'
-          TZ: 'America/New_York'
-          LOG_LEVEL: 'info'
+          TZ:   'Australia/Melbourne'
 
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
@@ -69,5 +66,3 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-
-##PG-Community
